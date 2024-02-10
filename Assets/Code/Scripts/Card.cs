@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Card : MonoBehaviour
 {
-
+    public int index = 0;
     public bool facedUp = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +15,10 @@ public class Card : MonoBehaviour
     }
     void OnMouseDown()
     {
+        Instantiation myGame = GetComponent<Instantiation>();
+        myGame.handleCardClick(index);
+
+        //Debug.Log(this.gameObject.name);
 
         if (facedUp == false)
         {
