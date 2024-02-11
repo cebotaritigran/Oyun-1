@@ -5,71 +5,87 @@ using UnityEngine;
 
 public class Instantiation : MonoBehaviour
 {
-    public int firstCard = -1;
-    public int secondCard = -1;
-    public const int gridRows = 4;
-    public const int gridCols = 2;
-    public const float offsetX = 100f;
-    public const float offsetY = 100f;
+    public static Instantiation GlobalInstance;
 
-    public GameObject myPrefab;
+    void Awake() => GlobalInstance = this;
 
-    public Card myCard;
+    private int firstCard = -1;
+    private int secondCard = -1;
+    private const int gridRows = 4;
+    private const int gridCols = 8;
+    //private const float offsetX = 100f;
+    //private const float offsetY = 100f;
+
+
+    private const int _screenWidth = 1920;
+    private const int _screenHeight = 1080;
+
+    private const float _cardWidth = _screenWidth / gridCols;
+    private const float _cardHeight = _screenHeight / gridRows;
+
+    private const float _mostRight = (_screenWidth / 2) - (_cardWidth / 2);
+    private const float _mostLeft = _mostRight * -1;
+    private const float _topMost = (_screenHeight / 2) - (_cardHeight / 2);
+    private const float _bottomMost = _topMost * -1;
+
+    [SerializeField] private Card myPrefab;
+
+    private List<Card> _cards = new List<Card>();
+
     private void Start()
     {
-        int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3 };
+        //GameObject box = GameObject.Find(/* "Box" */"Cube");
+        //int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3 };
         for (int row = 0; row < gridRows; row++)
         {
             for (int col = 0; col < gridCols; col++)
             {
-                GameObject newSpawn = Instantiate(myPrefab, new Vector3(col * offsetX, 0, (gridRows - row - 1) * offsetY), Quaternion.identity);
-                newSpawn.GetComponent<Card>().index = (gridCols * row) + col;
+                int index = (gridCols * row) + col;
+                float xCoordinate = _mostLeft + (col * _cardWidth);
+                float yCoordinate = _topMost - (row * _cardHeight);
+
+                Card spawnedCard = Instantiate(myPrefab, new Vector3(xCoordinate, yCoordinate, 0), Quaternion.identity);
+
+                //Card spawnedCard = Instantiate(myPrefab);
+                //spawnedCard.transform.position = new Vector3(xCoordinate, yCoordinate, 0);
+                //spawnedCard.transform.rotation = Quaternion.identity;
+
+
+                spawnedCard.transform.localScale = new Vector3(_cardWidth - 20, _cardHeight - 20, 1);
+                spawnedCard.index = index;
+                _cards.Add(spawnedCard);
             }
         }
-        /*for (int i = 0; i < gridCols; i++)
-        {
-            for (int k = 0; k < gridRows; k++)
-            {
-                GameObject newSpawn = Instantiate(myPrefab, new Vector3(i * offsetX, 0, k * offsetY), Quaternion.identity);
-                newSpawn.GetComponent<Card>().index = (gridRows * k) + i;
-            }
-        }*/
-
     }
 
-    public void handleCardClick(int index){
+    public void handleCardClick(int index)
+    {
         if (firstCard == -1)
         {
             firstCard = index;
+            _openCard(index);
         }
         else if (secondCard == -1)
         {
             secondCard = index;
-            checkMatch();
+            _openCard(index);
+            _checkMatch();
         }
     }
 
-    public void checkMatch(){
-        Debug.Log(firstCard);
-        Debug.Log(secondCard);
+    private void _checkMatch()
+    {
+        //Debug.Log(firstCard);
+        //Debug.Log(secondCard);
     }
 
+    private void _openCard(int index)
+    {
+        _cards[index].transform.eulerAngles = new Vector3(180, 0, 0);
+    }
 
-    // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
-    //public GameObject myPrefab;
-
-    // This script will simply instantiate the Prefab when the game starts.
-    // void Start()
-    // {
-    //     for (int k = 0; k < 4; k++)
-    //     {
-    //         for (int i = 0; i < 5; i++)
-    //         {
-    //             Instantiate(myPrefab, new Vector3(i * 100, 0, k * 100), Quaternion.identity);
-    //         }
-    //     }
-
-    //     // Instantiate at position (0, 0, 0) and zero rotation.
-
-    // }
+    private void _closeCard(int index)
+    {
+        _cards[index].transform.eulerAngles = new Vector3(0, 0, 0);
+    }
 }

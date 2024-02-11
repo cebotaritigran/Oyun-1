@@ -15,12 +15,10 @@ public class Card : MonoBehaviour
     }
     void OnMouseDown()
     {
-        Instantiation myGame = GetComponent<Instantiation>();
-        myGame.handleCardClick(index);
+        Debug.Log("clicked " + index);
+        Instantiation.GlobalInstance.handleCardClick(index);
 
-        //Debug.Log(this.gameObject.name);
-
-        if (facedUp == false)
+        /*if (facedUp == false)
         {
             transform.eulerAngles = new Vector3(180, 0, 0);
             facedUp = true;
@@ -29,7 +27,7 @@ public class Card : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             facedUp = false;
-        }
+        }*/
 
     }
     void OnMouseExit()
