@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Instantiation : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class Instantiation : MonoBehaviour
     [SerializeField] private Card myPrefab;
 
     private List<Card> _cards = new List<Card>();
+    private List<Animator> _animators = new List<Animator>();
 
     private void Start()
     {
@@ -45,6 +47,7 @@ public class Instantiation : MonoBehaviour
                 float yCoordinate = _topMost - (row * _cardHeight);
 
                 Card spawnedCard = Instantiate(myPrefab, new Vector3(xCoordinate, yCoordinate, 0), Quaternion.identity);
+                Animator animator = spawnedCard.GetComponent<Animator>();
 
                 //Card spawnedCard = Instantiate(myPrefab);
                 //spawnedCard.transform.position = new Vector3(xCoordinate, yCoordinate, 0);
@@ -54,12 +57,24 @@ public class Instantiation : MonoBehaviour
                 spawnedCard.transform.localScale = new Vector3(_cardWidth - 20, _cardHeight - 20, 1);
                 spawnedCard.index = index;
                 _cards.Add(spawnedCard);
+                _animators.Add(animator);
+
+                staggeredAnimation();
             }
+        }
+    }
+
+    private async void staggeredAnimation(){
+        await Task.Delay(1000);
+        for(int i = 0; i < _cards.Count; i++){
+            await Task.Delay(100);
+            _animators[i].Play("Base Layer.OpenCard", 0, 0.0f);
         }
     }
 
     public void handleCardClick(int index)
     {
+        _animators[index].Play("Base Layer.OpenCard", 0, 0.0f);
         if (firstCard == -1)
         {
             firstCard = index;
