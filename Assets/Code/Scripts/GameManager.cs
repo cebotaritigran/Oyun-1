@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public AudioSource sound;
     bool picked; // set this true if we have 2 cards sleceted
 
     List<Card> pickedCards = new List<Card>();
@@ -20,12 +21,21 @@ public class GameManager : MonoBehaviour
         if (pickedCards.Count == 2)
         {
             picked = true;
+            CheckMatch();
             // check if we have a match :)
         }
-        else
+ 
+    }
+
+    IEnumerator CheckMatch()
+    {
+        yield return new WaitForSeconds(1f);
+        if (pickedCards[0].GetCardId() == pickedCards[1].GetCardId())
         {
-            picked = false;
-        }
+            //matych
+            sound.Play();
+            Debug.Log("lol");
+        }  
     }
 
     public bool TwoCardsPicked()

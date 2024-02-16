@@ -20,4 +20,9 @@ public class Card : MonoBehaviour
         sound.Play();
     }
 
+    public int GetCardId()
+    {
+        return _cardId;
+    }
+
 }
