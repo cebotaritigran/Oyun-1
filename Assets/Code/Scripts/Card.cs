@@ -2,43 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Card : MonoBehaviour
 {
-    public int index = 0;
-    public bool facedUp = false;
+    public AudioSource sound;
+    int _cardId;
+    public SpriteRenderer spriteRendererCardFront;
+    public Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetCard(int id, Sprite sprite)
     {
-
+        _cardId = id;
+        spriteRendererCardFront.sprite = sprite;
     }
-    void OnMouseDown()
+    public void FlipUp(bool faceUp)
     {
-        Debug.Log("clicked " + index);
-        Instantiation.GlobalInstance.handleCardClick(index);
-
-        /*if (facedUp == false)
-        {
-            transform.eulerAngles = new Vector3(180, 0, 0);
-            facedUp = true;
-        }
-        else if (facedUp == true)
-        {
-            transform.eulerAngles = new Vector3(0, 0, 0);
-            facedUp = false;
-        }*/
-
-    }
-    void OnMouseExit()
-    {
-
-
+        animator.SetBool("FaceUp", faceUp);
+        sound.Play();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
