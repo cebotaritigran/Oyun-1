@@ -21,21 +21,33 @@ public class GameManager : MonoBehaviour
         if (pickedCards.Count == 2)
         {
             picked = true;
-            CheckMatch();
+            StartCoroutine(CheckMatch());
             // check if we have a match :)
         }
- 
+
     }
 
     IEnumerator CheckMatch()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         if (pickedCards[0].GetCardId() == pickedCards[1].GetCardId())
         {
             //matych
             sound.Play();
             Debug.Log("lol");
-        }  
+            pickedCards[0].gameObject.SetActive(false);
+            pickedCards[0].gameObject.SetActive(false);
+        }
+        else
+        {
+            pickedCards[0].FlipUp(false);
+            pickedCards[1].FlipUp(false);
+        }
+        yield return new WaitForSeconds(1.5f);
+
+        // :)
+        picked = false;
+        pickedCards.Clear();
     }
 
     public bool TwoCardsPicked()
