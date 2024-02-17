@@ -36,14 +36,14 @@ public class GameManager : MonoBehaviour
             sound.Play();
             Debug.Log("lol");
             pickedCards[0].gameObject.SetActive(false);
-            pickedCards[0].gameObject.SetActive(false);
+            pickedCards[1].gameObject.SetActive(false);
         }
         else
         {
             pickedCards[0].FlipUp(false);
             pickedCards[1].FlipUp(false);
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         // :)
         picked = false;
