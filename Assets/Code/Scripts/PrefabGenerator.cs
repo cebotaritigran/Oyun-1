@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 public class Instantiation : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class Instantiation : MonoBehaviour
     private int _firstCardIndex = -1;
     private int _secondCardIndex = -1;
     private const int _gridRows = 4;
-    private const int _gridCols = 8;
+    private const int _gridCols = 4;
     private const int _dimension = _gridRows * _gridCols;
     private const int _screenWidth = 1920;
     private const int _screenHeight = 1080;
@@ -36,6 +37,15 @@ public class Instantiation : MonoBehaviour
 
     private void Start()
     {
+        // FOR MOBILE: SET SCREEN ORIENTATION TO LANDSCAPE
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
+        // SET FRAME RATE TO DEVICE SCREEN'S REFRESH RATE
+        Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+
+        // SET SCREEN RESOLUTION
+        Screen.SetResolution(640, 480, true);
+
         _initializeGameState();
         for (int row = 0; row < _gridRows; row++)
         {
@@ -48,20 +58,18 @@ public class Instantiation : MonoBehaviour
                 Card spawnedCard = Instantiate(myPrefab, new Vector3(xCoordinate, yCoordinate, 0), Quaternion.identity);
                 Animator animator = spawnedCard.GetComponent<Animator>();
 
-                //Card spawnedCard = Instantiate(myPrefab);
-                //spawnedCard.transform.position = new Vector3(xCoordinate, yCoordinate, 0);
-                //spawnedCard.transform.rotation = Quaternion.identity;
+                GameObject canvasObject = spawnedCard.transform.GetChild(1).gameObject;
+                GameObject textObject = canvasObject.transform.GetChild(0).gameObject;
+                TextMeshProUGUI textMeshPro = textObject.GetComponent<TextMeshProUGUI>();
+                textMeshPro.SetText(_randomNumbers[index].ToString());
 
                 spawnedCard.transform.localScale = new Vector3(_cardWidth - 20, _cardHeight - 20, 10);
                 spawnedCard.index = index;
 
-                //Text textComponent = spawnedCard.GetComponent<Text>();
-                //textComponent.text = _randomNumbers[index].ToString();
-                
                 _cards.Add(spawnedCard);
                 _animators.Add(animator);
 
-                _staggeredAnimation();
+                //_staggeredAnimation();
             }
         }
     }
@@ -91,7 +99,7 @@ public class Instantiation : MonoBehaviour
         for (int i = 0; i < dimension; i++)
         {
             System.Random rnd = new System.Random();
-            int randomNumber = rnd.Next();
+            int randomNumber = rnd.Next(dimension * dimension);
             while (randomNumbers.Contains(randomNumber))
             {
                 randomNumber = rnd.Next();
@@ -112,9 +120,8 @@ public class Instantiation : MonoBehaviour
         }
     }
 
-    public void handleCardClick(int index)
+    public async void handleCardClick(int index)
     {
-        _animators[index].Play("Base Layer.OpenCard", 0, 0.0f);
         if (_firstCardIndex == -1)
         {
             _firstCardIndex = index;
@@ -124,6 +131,8 @@ public class Instantiation : MonoBehaviour
         {
             _secondCardIndex = index;
             _openCard(index);
+            // WAIT UNTIL THE ANIMATION FINISHES
+            await Task.Delay(1000);
             _checkMatch();
         }
     }
@@ -136,22 +145,28 @@ public class Instantiation : MonoBehaviour
         {
             // CORRECT MATCH
             Debug.Log("CORRECT MATCH");
+            Destroy(_cards[_firstCardIndex].gameObject);
+            Destroy(_cards[_secondCardIndex].gameObject);
         }
         else
         {
             // FALSE MATCH
             Debug.Log("FALSE MATCH");
+            _closeCard(_firstCardIndex);
+            _closeCard(_secondCardIndex);
         }
+        _firstCardIndex = -1;
+        _secondCardIndex = -1;
     }
 
     private void _openCard(int index)
     {
-        _cards[index].transform.eulerAngles = new Vector3(180, 0, 0);
+        _animators[index].Play("Base Layer.OpenCard", 0, 0.0f);
     }
 
     private void _closeCard(int index)
     {
-        _cards[index].transform.eulerAngles = new Vector3(0, 0, 0);
+        _animators[index].Play("Base Layer.CloseCard", 0, 0.0f);
     }
 }
 
