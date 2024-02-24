@@ -18,6 +18,7 @@ public class CardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.SetPairs(pairAmount);
         CreatePlayField();
     }
 
@@ -29,6 +30,7 @@ public class CardManager : MonoBehaviour
             {
                 Vector3 position = new Vector3(i * _offSet, 0, 0);
                 GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity);
+                // setting card id
                 newCard.GetComponent<Card>().SetCard(i, spriteList[i]);
                 cardDeck.Add(newCard);
             }
