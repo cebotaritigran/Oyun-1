@@ -5,24 +5,25 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public AudioSource sound;
-    int _cardId;
+    public int cardId;
     public SpriteRenderer spriteRendererCardFront;
     public Animator animator;
+    public bool facedUp = false;
 
     public void SetCard(int id, Sprite sprite)
     {
-        _cardId = id;
+        cardId = id;
         spriteRendererCardFront.sprite = sprite;
     }
     public void FlipUp(bool faceUp)
     {
+        this.facedUp = faceUp;
         animator.SetBool("FaceUp", faceUp);
         sound.Play();
     }
 
-    public int GetCardId()
+    /*public int GetCardId()
     {
-        return _cardId;
-    }
-
+        return cardId;
+    }*/
 }

@@ -6,9 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public AudioSource sound;
-    bool picked; // set this true if we have 2 cards sleceted
-    int pairs;
-    int pairCounter;
+    public bool twoCardsPicked; // set this true if we have 2 cards selected
+    private int pairAmount;
+    private int pairCounter;
 
     List<Card> pickedCards = new List<Card>();
 
@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
         pickedCards.Add(card);
         if (pickedCards.Count == 2)
         {
-            picked = true;
-            StartCoroutine(CheckMatch());
+            twoCardsPicked = true;
             // check if we have a match :)
+            StartCoroutine(CheckMatch());
         }
 
     }
@@ -32,47 +32,39 @@ public class GameManager : MonoBehaviour
     IEnumerator CheckMatch()
     {
         yield return new WaitForSeconds(1.5f);
-        if (pickedCards[0].GetCardId() == pickedCards[1].GetCardId())
+        if (pickedCards[0].cardId == pickedCards[1].cardId)
         {
-            //matych
+            // match
             sound.Play();
             Debug.Log("lol");
-            pickedCards[0].gameObject.SetActive(false);
-            pickedCards[1].gameObject.SetActive(false);
+            pickedCards.ForEach((Card card) => card.gameObject.SetActive(false));
             pairCounter++;
             CheckForWin();
         }
         else
         {
-            pickedCards[0].FlipUp(false);
-            pickedCards[1].FlipUp(false);
+            pickedCards.ForEach((Card card) => card.FlipUp(false));
             yield return new WaitForSeconds(1.2f);
         }
 
         // :)
         // clear the board 
-        picked = false;
+        twoCardsPicked = false;
         pickedCards.Clear();
     }
 
     void CheckForWin()
     {
-        if (pairs == pairCounter)
+        if (pairAmount == pairCounter)
         {
-            //WIN
+            // WIN
             Debug.Log("ZORT");
         }
     }
 
-// passing this to play input to check if we picked 2 cards
-    public bool TwoCardsPicked()
+    // getting pair amount from card manager :)
+    public void SetPairAmount(int pairAmount)
     {
-        return picked;
-    }
-
-// getting pair amount from card manager :)
-    public void SetPairs(int pairAmount)
-    {
-        pairs = pairAmount;
+        this.pairAmount = pairAmount;
     }
 }

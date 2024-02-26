@@ -48,8 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sound: {fileID: 6617885797428942735}
+  cardId: 0
   spriteRendererCardFront: {fileID: 2549134913736179766}
   animator: {fileID: 8890789615051390457}
+  facedUp: 0
 --- !u!65 &6383196778827635167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -97,8 +99,8 @@ Transform:
   m_GameObject: {fileID: 4989812700680035845}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.004081633, y: 0.53, z: 0.012}
-  m_LocalScale: {x: 0.30612245, y: 0.20979023, z: 3}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1260489577570750722}
@@ -312,8 +314,8 @@ Transform:
   m_GameObject: {fileID: 9024835198387276804}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.004081633, y: -0.61, z: 0.012}
-  m_LocalScale: {x: 0.30612245, y: 0.20979023, z: 3}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1260489577570750722}
@@ -401,7 +403,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.000000014901159, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.98, y: 0.1, z: 1.43}
+  m_LocalScale: {x: 1, y: 0.1, z: 1.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2827728400134921108}
