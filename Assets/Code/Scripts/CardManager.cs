@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -87,7 +87,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void PutCardsInPlayfield()
+    private async void PutCardsInPlayfield()
     {
         for (int x = 0; x < width; x++)
         {
@@ -96,7 +96,10 @@ public class CardManager : MonoBehaviour
                 int index = (x * height) + z;
                 //Vector3 position = transform.position + new Vector3(x * _offset, 0, z * _offset);
                 Vector3 position = new Vector3(x * _offset, 0, z * _offset);
-                cardDeck[index].transform.position = position;
+
+                await Task.Delay(200);
+                cardDeck[index].GetComponent<Card>().AnimateCardIntoPosition(position);
+                //cardDeck[index].transform.position = position;
             }
         }
     }
