@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -25,32 +24,25 @@ public class Card : MonoBehaviour
     {
         return cardId;
     }*/
-    public float durationSeconds = 2.5f;
 
     public void AnimateCardIntoPosition(Vector3 targetPosition)
     {
         //StopAllCoroutines();
-        StartCoroutine(Animate(targetPosition));
-    }
-
-    private IEnumerator Animate(Vector3 targetPosition)
-    {
-        float timeElapsed = 0;
 
         // START ANIMATION FROM:
         // X COORDINATE FROM FINAL POSITION (NO ANIMATION)
         // Y COORDINATE FROM 5.0f
         // Z COORDINATE FROM THE ORIGINAL POSITION (PROBABLY 0.0f ???)
         Vector3 startPosition = new Vector3(targetPosition.x, 5.0f, transform.position.z);
+        float durationSeconds = 2.5f;
+        StartCoroutine(transform.AnimateToPosition(startPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
+    }
 
-        while (timeElapsed < durationSeconds)
-        {
-            //float t = EasingFunctions.EaseOutQuint(0, 1, timeElapsed / durationSeconds);
-            float t = EasingFunctions.EaseOutExpo(0, 1, timeElapsed / durationSeconds);
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = targetPosition;
+    public void AnimateCardRotation(Vector3 targetRotation)
+    {
+        //StopAllCoroutines();
+        Vector3 startRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        float durationSeconds = 2.5f;
+        StartCoroutine(transform.AnimateRotation(startRotation, targetRotation, durationSeconds, EasingFunctions.EaseOutExpo));
     }
 }
