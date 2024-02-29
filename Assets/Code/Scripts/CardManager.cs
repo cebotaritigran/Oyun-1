@@ -5,20 +5,20 @@ using UnityEngine;
 public class CardManager : MonoBehaviour
 {
     // INITIALIZED FROM THE EDITOR
-    public int width;
+    public static int width = 8;
 
     // INITIALIZED FROM THE EDITOR
-    public int height;
+    public static int height = 2;
 
     private int pairAmount;
 
     public Sprite[] spriteList;
 
-    float _offset = 1.6f;
+    public static float offset = 1.6f;
 
     public GameObject cardPrefab;
 
-    public List<GameObject> cardDeck = new List<GameObject>();
+    private List<GameObject> cardDeck = new List<GameObject>();
 
     // Awake is used to initialize any variables or game state before the game starts
     void Awake()
@@ -30,17 +30,10 @@ public class CardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetCameraPosition();
         GameManager.instance.SetPairAmount(pairAmount);
         CreatePlayField();
-    }
-
-    private void SetCameraPosition()
-    {
-        // SET CAMERA POSITION TO THE CENTER OF ALL CARDS
-        float xCoordinate = CalculateCameraXCoordinate();
-        float zCoordinate = -CalculateCameraZCoordinate() * 1.45f;
-        Camera.main.transform.position = new Vector3(xCoordinate, 4.5f, zCoordinate);
+        ShuffleCards();
+        PutCardsInPlayfield();
     }
 
     private void CreatePlayField()
@@ -55,9 +48,6 @@ public class CardManager : MonoBehaviour
                 cardDeck.Add(newCard);
             }
         }
-
-        ShuffleCards();
-        PutCardsInPlayfield();
     }
 
     private void ShuffleCards()
@@ -78,60 +68,13 @@ public class CardManager : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 int index = (x * height) + z;
-                Vector3 position = new Vector3(x * _offset, 0, z * _offset);
+                Vector3 position = new Vector3(x * offset, 0, z * offset);
                 Card cardScript = cardDeck[index].GetComponent<Card>();
 
-                await Task.Delay(200);
+                await Task.Delay(150);
                 cardScript.AnimateCardIntoPosition(position);
-                cardScript.AnimateCardRotation(new Vector3(360, 0, 0));
-                //cardDeck[index].transform.position = position;
+                cardScript.AnimateCardRotation();
             }
         }
-
-        AnimateCameraIntoPosition();
     }
-
-    private void AnimateCameraIntoPosition()
-    {
-        Vector3 currentRotation = Camera.main.transform.eulerAngles;
-        float durationSeconds = 2.5f;
-        StartCoroutine(Camera.main.transform.AnimateRotation(currentRotation, new Vector3(90.0f, 0.0f, 0.0f), durationSeconds, EasingFunctions.EaseOutCubic));
-
-        float zCoordinate = CalculateCameraZCoordinate();
-        Vector3 currentPosition = Camera.main.transform.position;
-        Vector3 targetPosition = new Vector3(currentPosition.x, currentPosition.y, zCoordinate);
-        StartCoroutine(Camera.main.transform.AnimateToPosition(currentPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutCubic));
-    }
-
-    // SHOULD CALCULATE THE CENTER OF THE CARD DECK, IN THE X AXIS
-    private float CalculateCameraXCoordinate()
-    {
-        //float cardWidth = 1.0f;
-
-        int a = width / 2;
-        float xCoordinate = a * _offset;
-        if (width % 2 == 0)
-        {
-            xCoordinate -= _offset / 2;
-        }
-
-        return xCoordinate;
-    }
-
-    // SHOULD CALCULATE THE CENTER OF THE CARD DECK, IN THE Z AXIS
-    private float CalculateCameraZCoordinate()
-    {
-        //float cardHeight = 1.45f;
-
-        int b = height / 2;
-        float zCoordinate = b * _offset;
-        if (height % 2 == 0)
-        {
-            zCoordinate -= _offset / 2;
-        }
-        return zCoordinate;
-    }
-
-    // SHOULD CALCULATE HOW FAR THE CAMERA SHOULD BE, IN ORDER TO SEE ALL THE CARDS
-    private void CalculateCameraYCoordinate() { }
 }

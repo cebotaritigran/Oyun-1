@@ -15,7 +15,7 @@ public class Card : MonoBehaviour
     }
     public void FlipUp(bool faceUp)
     {
-        this.facedUp = faceUp;
+        facedUp = faceUp;
         animator.SetBool("FaceUp", faceUp);
         sound.Play();
     }
@@ -38,10 +38,11 @@ public class Card : MonoBehaviour
         StartCoroutine(transform.AnimateToPosition(startPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
     }
 
-    public void AnimateCardRotation(Vector3 targetRotation)
+    public void AnimateCardRotation()
     {
         //StopAllCoroutines();
-        Vector3 startRotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        Vector3 startRotation = new Vector3(180.0f, transform.eulerAngles.y, transform.eulerAngles.z);
+        Vector3 targetRotation = new Vector3(360.0f, 0.0f, 0.0f);
         float durationSeconds = 2.5f;
         StartCoroutine(transform.AnimateRotation(startRotation, targetRotation, durationSeconds, EasingFunctions.EaseOutExpo));
     }

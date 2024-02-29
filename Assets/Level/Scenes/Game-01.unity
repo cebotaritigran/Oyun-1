@@ -414,8 +414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0c9ddd20e07ef44ad27353fb0c66d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 4
-  height: 3
   spriteList:
   - {fileID: 21300000, guid: f53f03287de3f314fa2a907d0321cd7c, type: 3}
   - {fileID: 21300000, guid: 10fcd779bccb42e49b9f6a459e9be426, type: 3}
@@ -428,7 +426,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 643c8b205babfec41b9f42cd4a9a651a, type: 3}
   - {fileID: 21300000, guid: 241670be012a4c047a41f853828e45c7, type: 3}
   cardPrefab: {fileID: 4888649455047989435, guid: 0f65a3260c367164a8f2aabbd0805297, type: 3}
-  cardDeck: []
 --- !u!114 &778701822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +451,7 @@ GameObject:
   - component: {fileID: 1506099999}
   - component: {fileID: 1506099998}
   - component: {fileID: 1506099997}
+  - component: {fileID: 1506100000}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -529,12 +527,24 @@ Transform:
   m_GameObject: {fileID: 1506099996}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 4.5, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+--- !u!114 &1506100000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506099996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed6fb4bea4de70479eaeccd8e6e3ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1944659799
 GameObject:
   m_ObjectHideFlags: 0
