@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     List<Card> pickedCards = new List<Card>();
 
+    // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
         instance = this;
