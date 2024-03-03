@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardHoverMovement : MonoBehaviour
@@ -69,20 +66,19 @@ public class CardHoverMovement : MonoBehaviour
     //                      \     /
     //                       \   /
     //                        \ /
+    private bool isHovering = false;
+    private Vector3 hoverScale = new Vector3(1.1f, 1.0f, 1.1f);
+    private Vector3 idleScale = new Vector3(1.0f, 1.0f, 1.0f);
 
     void OnMouseOver()
     {
         // CARD HIGHLIGH (POP) BY CHANGING ITS SCALE WITH VECTOR3
         // using lerp for smooth animation -- to tweak later
-        if (transform.localScale.x <= 1.100f)
+        if (!isHovering)
         {
-            transform.localScale = new Vector3(
-            (Mathf.Lerp(transform.localScale.x, transform.localScale.x + 0.025f, Mathf.SmoothStep(0f, 1f, 1f))),
-            (Mathf.Lerp(transform.localScale.y, transform.localScale.y + 0.025f, Mathf.SmoothStep(0f, 1f, 1f))),
-            (Mathf.Lerp(transform.localScale.z, transform.localScale.z + 0.025f, Mathf.SmoothStep(0f, 1f, 1f)))
-            );
+            isHovering = true;
+            StartCoroutine(transform.AnimateScale(transform.localScale, hoverScale, 0.15f, EasingFunctions.EaseOutSine));
         }
-        //Debug.Log(transform.localScale.x);
 
         // ROTATION START
         RotateGameObjectBasedWhereMousePoints();
@@ -92,15 +88,11 @@ public class CardHoverMovement : MonoBehaviour
     {
         // CARD HIGHLIGH (POP) TO NORMAL BY CHANGING ITS SCALE WITH VECTOR3
         // using lerp for smooth animation -- to tweak later
-        if (transform.localScale.x >= 1.0000f)
+        if (isHovering)
         {
-            transform.localScale = new Vector3(
-            (Mathf.Lerp(transform.localScale.x, transform.localScale.x - 0.085f, Mathf.SmoothStep(0f, 1f, 1f))),
-            (Mathf.Lerp(transform.localScale.y, transform.localScale.y - 0.085f, Mathf.SmoothStep(0f, 1f, 1f))),
-            (Mathf.Lerp(transform.localScale.z, transform.localScale.z - 0.085f, Mathf.SmoothStep(0f, 1f, 1f)))
-            );
+            isHovering = false;
+            StartCoroutine(transform.AnimateScale(transform.localScale, idleScale, 0.15f, EasingFunctions.EaseOutSine));
         }
-
 
         // Restart the cards rotation to start so it looks very natural when mouse exits :) maybe not idk
         //                          .                                               
@@ -117,7 +109,6 @@ public class CardHoverMovement : MonoBehaviour
         //                | |                                                       
         //                c--` 
         transform.rotation = Quaternion.Euler(0, 0, 0);
-        //Debug.Log(transform.localScale.x);
     }
 
     // ROTATE GAME OBJECT BASED ON WHERE MOUSE POINTS
