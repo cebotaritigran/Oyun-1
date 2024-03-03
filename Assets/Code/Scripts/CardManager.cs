@@ -5,10 +5,10 @@ using UnityEngine;
 public class CardManager : MonoBehaviour
 {
     // INITIALIZED FROM THE EDITOR
-    public static int width = 6;
+    public static int width = 2;
 
     // INITIALIZED FROM THE EDITOR
-    public static int height = 3;
+    public static int height = 8;
 
     private int pairAmount;
 
