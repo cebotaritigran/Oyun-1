@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -7,6 +8,7 @@ public class Card : MonoBehaviour
     public SpriteRenderer spriteRendererCardFront;
     public Animator animator;
     public bool facedUp = false;
+    private float durationSeconds = 2.5f;
 
     public void SetCard(int id, Sprite sprite)
     {
@@ -20,30 +22,21 @@ public class Card : MonoBehaviour
         sound.Play();
     }
 
-    /*public int GetCardId()
+    public IEnumerator AnimateCardIntoPosition(Vector3 targetPosition)
     {
-        return cardId;
-    }*/
-
-    public void AnimateCardIntoPosition(Vector3 targetPosition)
-    {
-        //StopAllCoroutines();
-
-        // START ANIMATION FROM:
-        // X COORDINATE FROM FINAL POSITION (NO ANIMATION)
-        // Y COORDINATE FROM 5.0f
-        // Z COORDINATE FROM THE ORIGINAL POSITION (PROBABLY 0.0f ???)
+        // X COORDINATE STARTS FROM FINAL POSITION (NO ANIMATION)
+        // Y COORDINATE STARTS FROM 5.0f
+        // Z COORDINATE STARTS FROM THE ORIGINAL POSITION (PROBABLY 0.0f)
         Vector3 startPosition = new Vector3(targetPosition.x, 5.0f, transform.position.z);
-        float durationSeconds = 2.5f;
-        StartCoroutine(transform.AnimateToPosition(startPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
+        // RETURNS ONCE THE ANIMATION FINISHES
+        yield return StartCoroutine(transform.AnimateToPosition(startPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
     }
 
-    public void AnimateCardRotation()
+    public IEnumerator AnimateCardRotation()
     {
-        //StopAllCoroutines();
         Vector3 startRotation = new Vector3(180.0f, transform.eulerAngles.y, transform.eulerAngles.z);
         Vector3 targetRotation = new Vector3(360.0f, 0.0f, 0.0f);
-        float durationSeconds = 2.5f;
-        StartCoroutine(transform.AnimateRotation(startRotation, targetRotation, durationSeconds, EasingFunctions.EaseOutExpo));
+        // RETURNS ONCE THE ANIMATION FINISHES
+        yield return StartCoroutine(transform.AnimateEulerAngles(startRotation, targetRotation, durationSeconds, EasingFunctions.EaseOutExpo));
     }
 }

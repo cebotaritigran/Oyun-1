@@ -67,13 +67,40 @@ public class CardHoverMovement : MonoBehaviour
     //                       \   /
     //                        \ /
     private bool isHovering = false;
+    private bool ignorePointer = false;
     private Vector3 hoverScale = new Vector3(1.1f, 1.0f, 1.1f);
     private Vector3 idleScale = new Vector3(1.0f, 1.0f, 1.0f);
 
+    public void DisableHoverEffect()
+    {
+        if (ignorePointer)
+        {
+            // ALREADY DISABLED
+            return;
+        }
+        ignorePointer = true;
+        isHovering = false;
+        StartCoroutine(transform.AnimateScale(transform.localScale, idleScale, 0.15f, EasingFunctions.EaseOutSine));
+    }
+
+    public void EnableHoverEffect()
+    {
+        // ALREADY ENABLED
+        if (!ignorePointer)
+        {
+            return;
+        }
+        ignorePointer = false;
+    }
+
     void OnMouseOver()
     {
-        // CARD HIGHLIGH (POP) BY CHANGING ITS SCALE WITH VECTOR3
-        // using lerp for smooth animation -- to tweak later
+        if (ignorePointer || !GameManager.instance.timerRunning)
+        {
+            return;
+        }
+
+        // CARD HIGHLIGHT (POP) BY CHANGING ITS SCALE WITH VECTOR3
         if (!isHovering)
         {
             isHovering = true;
@@ -108,13 +135,14 @@ public class CardHoverMovement : MonoBehaviour
         //                | |         ``----''            ``----''                  
         //                | |                                                       
         //                c--` 
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        //transform.rotation = Quaternion.Euler(0, 0, 0);
+        StartCoroutine(transform.AnimateRotation(transform.rotation, Quaternion.Euler(0, 0, 0), 0.15f, EasingFunctions.EaseOutSine));
     }
 
     // ROTATE GAME OBJECT BASED ON WHERE MOUSE POINTS
     // using raycast and inverse trans form point to get local position of game object
     // on which mouse points to get a value like 7f and -7f depends on where mouse points
-    Transform RotateGameObjectBasedWhereMousePoints()
+    private Transform RotateGameObjectBasedWhereMousePoints()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -155,7 +183,7 @@ public class CardHoverMovement : MonoBehaviour
 
 
         // ROTATE Z coordinate CARD ON MOUSE HOVER
-        Debug.Log(localHit.x);
+        //Debug.Log(localHit.x);
 
         float currentRotationZ = 0f;
         float startRotationZPlus = 0f;

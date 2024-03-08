@@ -19,24 +19,23 @@ public class CameraBehaviour : MonoBehaviour
     void Awake()
     {
         instance = this;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // VARIABLES THAT DEPEND ON OTHER SCRIPTS SHOULD BE INITIALIZED IN `Start` METHOD
+        // TO BE CERTAIN THAT THEY ARE ALREADY INITIALIZED IN THAT SCRIPT'S `Awake` METHOD
         cardDeckWidth = CardManager.width;
         cardDeckHeight = CardManager.height;
         offset = CardManager.offset;
 
         xCoordinate = CalculateCameraXCoordinate();
         zCoordinate = CalculateCameraZCoordinate();
+
+        // CENTER THE CAMERA IN X AXIS
         transform.position = new Vector3(xCoordinate, 4.5f, -4.5f);
         InitializeFakeCamera();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    public void Initialize()
-    {
         // `CalculateCameraYCoordinate` USES `fakeCamera` TO CALCULATE THE Y COORDINATE
         yCoordinate = CalculateCameraYCoordinate();
         AnimateCameraIntoPosition();
@@ -78,26 +77,15 @@ public class CameraBehaviour : MonoBehaviour
         float yCoordinate = transform.position.y;
         float maxOffscreen = 0.0f;
 
-        /*for (int x = 0; x < cardDeckWidth; x++)
-        {
-            for (int z = 0; z < cardDeckHeight; z++)
-            {
-                
-            }
-        }*/
-
         for (int i = 0; i < CardManager.cardPositions.Count; i++)
         {
-            //Vector3 position = new Vector3(x * offset, 0, z * offset);
             Vector3 position = new Vector3(CardManager.cardPositions[i].x + 0.5f, 0, CardManager.cardPositions[i].z + 0.725f);
-
 
             // OBJECT'S COORDINATES ON THE SCREEN (NOT IN THE WORLD)
             // WHICH SHOULD ALWAYS BE BETWEEN 0 - 1
             // IF IT'S LESS THAN 0 OR GREATER 1, IT'S NOT ENTIRELY VISIBLE ON THE SCREEN
             // (BOTH X AND Y COORDINATES, Z DOESN'T MATTER BECAUSE THE SCREEN IS 2D)
 
-            //Vector3 screenPoint = Camera.main.WorldToViewportPoint(position);
             Vector3 screenPoint = fakeCamera.WorldToViewportPoint(position);
 
             // HERE I CHECK IT TO BE BETWEEN 0.15 - 0.85, TO LEAVE A LITTLE BIT OF SPACE AT THE EDGES OF THE SCREEN
@@ -124,12 +112,13 @@ public class CameraBehaviour : MonoBehaviour
 
     public async void AnimateCameraIntoPosition()
     {
+        // THIS IS AN ARBITRARY DURATION I CHOSE
         await Task.Delay(cardDeckWidth * cardDeckHeight * 50);
         float durationSeconds = 2.5f;
 
         Vector3 targetPosition = new Vector3(xCoordinate, yCoordinate, zCoordinate);
 
-        StartCoroutine(transform.AnimateRotation(transform.eulerAngles, finalCameraRotation, durationSeconds, EasingFunctions.EaseInOutSine));
+        StartCoroutine(transform.AnimateEulerAngles(transform.eulerAngles, finalCameraRotation, durationSeconds, EasingFunctions.EaseInOutSine));
         StartCoroutine(transform.AnimateToPosition(transform.position, targetPosition, durationSeconds, EasingFunctions.EaseInOutSine));
     }
 }

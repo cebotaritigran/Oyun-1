@@ -21,7 +21,7 @@ static class MyExtensions
         myObject.position = targetPosition;
     }
 
-    public static IEnumerator AnimateRotation(this Transform myObject, Vector3 startRotation, Vector3 targetRotation, float durationSeconds, Func<float, float, float, float> easing, float delaySeconds = 0.0f)
+    public static IEnumerator AnimateEulerAngles(this Transform myObject, Vector3 startRotation, Vector3 targetRotation, float durationSeconds, Func<float, float, float, float> easing, float delaySeconds = 0.0f)
     {
         yield return new WaitForSeconds(delaySeconds);
         float timeElapsed = 0;
@@ -31,9 +31,24 @@ static class MyExtensions
             float t = easing(0, 1, timeElapsed / durationSeconds);
             myObject.eulerAngles = Vector3.Lerp(startRotation, targetRotation, t);
             timeElapsed += Time.deltaTime;
-            yield return 1;
+            yield return null;
         }
         myObject.eulerAngles = targetRotation;
+    }
+
+    public static IEnumerator AnimateRotation(this Transform myObject, Quaternion startRotation, Quaternion targetRotation, float durationSeconds, Func<float, float, float, float> easing, float delaySeconds = 0.0f)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        float timeElapsed = 0;
+
+        while (timeElapsed < durationSeconds)
+        {
+            float t = easing(0, 1, timeElapsed / durationSeconds);
+            myObject.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        myObject.rotation = targetRotation;
     }
 
     public static IEnumerator AnimateScale(this Transform myObject, Vector3 startScale, Vector3 targetScale, float durationSeconds, Func<float, float, float, float> easing, float delaySeconds = 0.0f)
@@ -46,7 +61,7 @@ static class MyExtensions
             float t = easing(0, 1, timeElapsed / durationSeconds);
             myObject.localScale = Vector3.Lerp(startScale, targetScale, t);
             timeElapsed += Time.deltaTime;
-            yield return 1;
+            yield return null;
         }
         myObject.localScale = targetScale;
     }

@@ -1,16 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
     // INITIALIZED FROM THE EDITOR
+    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
     public static int width = 5;
 
     // INITIALIZED FROM THE EDITOR
+    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
     public static int height = 4;
 
-    private int pairAmount;
+    // `GameManager` AND `CameraBehaviour` SCRIPTS DEPEND ON THIS VARIABLE
+    public static int pairAmount;
 
     public Sprite[] spriteList;
 
@@ -20,27 +23,25 @@ public class CardManager : MonoBehaviour
 
     private List<GameObject> cardDeck = new List<GameObject>();
 
+    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
     public static List<Vector3> cardPositions = new List<Vector3>();
 
     // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
-        // NUMBER OF PAIRS IS EQUAL TO THE HALF OF NUMBER OF CARDS
         int numberOfCards = width * height;
         pairAmount = numberOfCards / 2;
         offset = 5.0f / numberOfCards;
         Debug.Log("Offset: " + offset);
+        CalculateCardPositions();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.SetPairAmount(pairAmount);
-        CalculateCardPositions();
-        CameraBehaviour.instance.Initialize();
         CreatePlayField();
         ShuffleCards();
-        PutCardsInPlayfield();
+        StartCoroutine(PutCardsInPlayfield());
     }
 
     private void CalculateCardPositions()
@@ -83,14 +84,29 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private async void PutCardsInPlayfield()
+    private IEnumerator PutCardsInPlayfield()
     {
         for (int i = 0; i < cardDeck.Count; i++)
         {
             Card cardScript = cardDeck[i].GetComponent<Card>();
-            cardScript.AnimateCardIntoPosition(cardPositions[i]);
-            cardScript.AnimateCardRotation();
-            await Task.Delay(150);
+            Coroutine coroutine = StartCoroutine(cardScript.AnimateCardIntoPosition(cardPositions[i]));
+            StartCoroutine(cardScript.AnimateCardRotation());
+
+            if (i == cardDeck.Count - 1)
+            {
+                // WAIT FOR THE ANIMATION OF THE LAST CARD TO FINISH
+                yield return coroutine;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.15f);
+            }
         }
+
+        // MAYBE SHOW A COUNTDOWN TIMER ON SCREEN
+        // 3 .... 2 .... 1 .... START
+
+        // SHOULD CALL THIS IN `AnimateCameraIntoPosition` OF THE `CameraBehaviour` SCRIPT INSTEAD OF HERE???
+        GameManager.instance.StartTimer();
     }
 }
