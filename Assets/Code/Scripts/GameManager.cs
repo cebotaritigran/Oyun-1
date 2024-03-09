@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class GameManager : MonoBehaviour
     public bool twoCardsPicked; // set this true if we have 2 cards selected
     private int pairAmount;
     private int pairCounter;
+
+    public int scorePerMatch = 50;
+
+    public int turnCounter = 1;
 
     List<Card> pickedCards = new List<Card>();
 
@@ -40,11 +45,16 @@ public class GameManager : MonoBehaviour
             Debug.Log("lol");
             pickedCards.ForEach((Card card) => card.gameObject.SetActive(false));
             pairCounter++;
+            // adding score this could be different for each card for different type latter to be done
+            ScoreManager.instance.AddScore(scorePerMatch);
+            ScoreManager.instance.TurnCounter(turnCounter);
             CheckForWin();
         }
         else
         {
             pickedCards.ForEach((Card card) => card.FlipUp(false));
+            // adding turns or subtracting to be done later
+            ScoreManager.instance.TurnCounter(turnCounter);
             yield return new WaitForSeconds(1.2f);
         }
 
@@ -61,6 +71,11 @@ public class GameManager : MonoBehaviour
             // WIN
             Debug.Log("ZORT");
         }
+    }
+
+    public void GameOver()
+    {
+        Debug.Log("YOU LOST");
     }
 
     // getting pair amount from card manager :)
