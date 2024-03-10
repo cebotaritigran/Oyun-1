@@ -6,11 +6,11 @@ public class CardManager : MonoBehaviour
 {
     // INITIALIZED FROM THE EDITOR
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public static int width = 5;
+    public static int width = 3;
 
     // INITIALIZED FROM THE EDITOR
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public static int height = 4;
+    public static int height = 2;
 
     // `GameManager` AND `CameraBehaviour` SCRIPTS DEPEND ON THIS VARIABLE
     public static int pairAmount;

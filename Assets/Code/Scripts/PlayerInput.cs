@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(hit.transform.gameObject);
+                //Debug.Log(hit.transform.gameObject);
                 Card hitCard = hit.transform.GetComponent<Card>();
                 if (!hitCard.facedUp)
                 {

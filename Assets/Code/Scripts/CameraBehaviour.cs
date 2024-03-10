@@ -119,6 +119,6 @@ public class CameraBehaviour : MonoBehaviour
         Vector3 targetPosition = new Vector3(xCoordinate, yCoordinate, zCoordinate);
 
         StartCoroutine(transform.AnimateEulerAngles(transform.eulerAngles, finalCameraRotation, durationSeconds, EasingFunctions.EaseInOutSine));
-        StartCoroutine(transform.AnimateToPosition(transform.position, targetPosition, durationSeconds, EasingFunctions.EaseInOutSine));
+        StartCoroutine(transform.AnimateToPosition(targetPosition, durationSeconds, EasingFunctions.EaseInOutSine));
     }
 }

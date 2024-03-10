@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -77,25 +76,21 @@ public class GameManager : MonoBehaviour
 
         // DOING THIS WITH FOR LOOPS, IN CASE WE WANT TO MATCH 3+ CARDS IN SOME LEVELS
 
+        Coroutine heightAnimationCoroutine = null;
         for (int i = 0; i < pickedCards.Count; i++)
         {
-            Vector3 targetPosition = new Vector3(pickedCards[i].transform.position.x, 0.35f, pickedCards[i].transform.position.z);
-            Coroutine coroutine = StartCoroutine(pickedCards[i].transform.AnimateToPosition(pickedCards[i].transform.position, targetPosition, 0.5f, EasingFunctions.EaseOutQuart));
-            if (i == pickedCards.Count - 1)
-            {
-                yield return coroutine;
-            }
+            heightAnimationCoroutine = StartCoroutine(pickedCards[i].transform.AnimateToPositionYAxis(2.0f, 1.5f, EasingFunctions.EaseInOutSine));
         }
+        //yield return heightAnimationCoroutine;
+        yield return new WaitForSeconds(0.25f);
 
+        Coroutine positionAnimationCoroutine = null;
         for (int i = 0; i < pickedCards.Count; i++)
         {
-            Vector3 targetPosition = new Vector3(Camera.main.transform.position.x, pickedCards[i].transform.position.y, Camera.main.transform.position.z);
-            Coroutine coroutine = StartCoroutine(pickedCards[i].transform.AnimateToPosition(pickedCards[i].transform.position, targetPosition, 1.0f, EasingFunctions.EaseOutCubic));
-            if (i == pickedCards.Count - 1)
-            {
-                yield return coroutine;
-            }
+            positionAnimationCoroutine = StartCoroutine(pickedCards[i].transform.AnimateToPositionXAxis(Camera.main.transform.position.x, 1.0f, EasingFunctions.EaseInOutCubic));
+            positionAnimationCoroutine = StartCoroutine(pickedCards[i].transform.AnimateToPositionZAxis(Camera.main.transform.position.z, 1.0f, EasingFunctions.EaseInOutCubic));
         }
+        yield return heightAnimationCoroutine;
 
         EnableHoverEffect();
 

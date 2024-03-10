@@ -28,13 +28,15 @@ public class Card : MonoBehaviour
         // Y COORDINATE STARTS FROM 5.0f
         // Z COORDINATE STARTS FROM THE ORIGINAL POSITION (PROBABLY 0.0f)
         Vector3 startPosition = new Vector3(targetPosition.x, 5.0f, transform.position.z);
+        transform.position = startPosition;
         // RETURNS ONCE THE ANIMATION FINISHES
-        yield return StartCoroutine(transform.AnimateToPosition(startPosition, targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
+        yield return StartCoroutine(transform.AnimateToPosition(targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
     }
 
     public IEnumerator AnimateCardRotation()
     {
         Vector3 startRotation = new Vector3(180.0f, transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.eulerAngles = startRotation;
         Vector3 targetRotation = new Vector3(360.0f, 0.0f, 0.0f);
         // RETURNS ONCE THE ANIMATION FINISHES
         yield return StartCoroutine(transform.AnimateEulerAngles(startRotation, targetRotation, durationSeconds, EasingFunctions.EaseOutExpo));
