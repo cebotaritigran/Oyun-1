@@ -95,7 +95,7 @@ public class CardHoverMovement : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (ignorePointer || !GameManager.instance.timerRunning)
+        if (ignorePointer || !ScoreManager.instance.timerRunning)
         {
             return;
         }

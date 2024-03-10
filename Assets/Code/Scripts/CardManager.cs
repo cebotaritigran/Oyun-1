@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    // INITIALIZED FROM THE EDITOR
-    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public static int width = 3;
+    public static CardManager instance;
 
     // INITIALIZED FROM THE EDITOR
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public static int height = 2;
+    public int width = 3;
+
+    // INITIALIZED FROM THE EDITOR
+    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
+    public int height = 2;
 
     // `GameManager` AND `CameraBehaviour` SCRIPTS DEPEND ON THIS VARIABLE
-    public static int pairAmount;
+    public int pairAmount;
 
     public Sprite[] spriteList;
 
-    public static float offset = 1.6f;
+    public float offset = 1.6f;
 
     public GameObject cardPrefab;
 
     private List<GameObject> cardDeck = new List<GameObject>();
 
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public static List<Vector3> cardPositions = new List<Vector3>();
+    public List<Vector3> cardPositions = new List<Vector3>();
 
     // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
+        instance = this;
+
         int numberOfCards = width * height;
         pairAmount = numberOfCards / 2;
         offset = 5.0f / numberOfCards;
@@ -107,6 +111,6 @@ public class CardManager : MonoBehaviour
         // 3 .... 2 .... 1 .... START
 
         // SHOULD CALL THIS IN `AnimateCameraIntoPosition` OF THE `CameraBehaviour` SCRIPT INSTEAD OF HERE???
-        GameManager.instance.StartTimer();
+        ScoreManager.instance.StartTimer();
     }
 }

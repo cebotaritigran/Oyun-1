@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
-    public static CameraBehaviour instance;
     private int cardDeckWidth;
     private int cardDeckHeight;
     private float offset;
@@ -14,21 +13,17 @@ public class CameraBehaviour : MonoBehaviour
     private float yCoordinate;
     private Vector3 finalCameraRotation = new Vector3(90.0f, 0.0f, 0.0f);
     private Camera fakeCamera;
-
-    // Awake is used to initialize any variables or game state before the game starts
-    void Awake()
-    {
-        instance = this;
-    }
+    private List<Vector3> cardPositions = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
     {
         // VARIABLES THAT DEPEND ON OTHER SCRIPTS SHOULD BE INITIALIZED IN `Start` METHOD
         // TO BE CERTAIN THAT THEY ARE ALREADY INITIALIZED IN THAT SCRIPT'S `Awake` METHOD
-        cardDeckWidth = CardManager.width;
-        cardDeckHeight = CardManager.height;
-        offset = CardManager.offset;
+        cardDeckWidth = CardManager.instance.width;
+        cardDeckHeight = CardManager.instance.height;
+        offset = CardManager.instance.offset;
+        cardPositions = CardManager.instance.cardPositions;
 
         xCoordinate = CalculateCameraXCoordinate();
         zCoordinate = CalculateCameraZCoordinate();
@@ -77,9 +72,9 @@ public class CameraBehaviour : MonoBehaviour
         float yCoordinate = transform.position.y;
         float maxOffscreen = 0.0f;
 
-        for (int i = 0; i < CardManager.cardPositions.Count; i++)
+        for (int i = 0; i < cardPositions.Count; i++)
         {
-            Vector3 position = new Vector3(CardManager.cardPositions[i].x + 0.5f, 0, CardManager.cardPositions[i].z + 0.725f);
+            Vector3 position = new Vector3(cardPositions[i].x + 0.5f, 0, cardPositions[i].z + 0.725f);
 
             // OBJECT'S COORDINATES ON THE SCREEN (NOT IN THE WORLD)
             // WHICH SHOULD ALWAYS BE BETWEEN 0 - 1

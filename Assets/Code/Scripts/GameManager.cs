@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,19 +9,8 @@ public class GameManager : MonoBehaviour
     // INITIALIZED FROM THE EDITOR
     public AudioSource sound;
     public bool twoCardsPicked = false; // set this to true if we have 2 cards selected
-    private int pairAmount;
     private int pairCounter = 0;
-
-    // THIS WILL VARY BASED ON THE LEVEL (AND MAYBE SOME OTHER ASPECTS AS WELL)
-    private int maxNumberOfAttempts;
-    private int attemptCounter = 0;
-
-    public bool timerRunning = false;
-    private float timeElapsed = 0.0f;
-
-    // MAYBE TO BE USED IN THE GUI (SHOW TIME IN SECONDS, WITHOUT MILLISECONDS)
-    //private int seconds = 0;
-
+    private int scorePerMatch = 50;
     private List<Card> pickedCards = new List<Card>();
 
     // Awake is used to initialize any variables or game state before the game starts
@@ -31,22 +19,13 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // VARIABLES THAT DEPEND ON OTHER SCRIPTS SHOULD BE INITIALIZED IN `Start` METHOD
-        // TO BE CERTAIN THAT THEY ARE ALREADY INITIALIZED IN THAT SCRIPT'S `Awake` METHOD
-        pairAmount = CardManager.pairAmount;
-    }
-
     public void AddCardToPickedList(Card card)
     {
         pickedCards.Add(card);
         if (pickedCards.Count == 2)
         {
             twoCardsPicked = true;
-            attemptCounter++;
-            Debug.Log("Attempt " + attemptCounter);
+            ScoreManager.instance.IncrementAttemptCounter();
             // check if we have a match :)
             StartCoroutine(CheckMatch());
         }
@@ -103,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             // match
             pairCounter++;
+            ScoreManager.instance.AddScore(scorePerMatch);
             CheckForWin();
 
             yield return new WaitForSeconds(0.5f);
@@ -134,55 +114,10 @@ public class GameManager : MonoBehaviour
 
     private void CheckForWin()
     {
-        if (pairAmount == pairCounter)
+        if (CardManager.instance.pairAmount == pairCounter)
         {
             // WIN
-            float time = timeElapsed;
-            StopTimer();
-            Debug.Log("Finished in " + time + " seconds with " + attemptCounter + " attempts in total");
-            attemptCounter = 0;
+            ScoreManager.instance.FinishGame();
         }
-    }
-
-    // Gets called every 0.02 seconds (2 milliseconds)
-    void FixedUpdate()
-    {
-        if (!timerRunning)
-        {
-            return;
-        }
-
-        timeElapsed += Time.fixedDeltaTime;
-
-        // MAYBE TO BE USED IN THE GUI (SHOW TIME IN SECONDS, WITHOUT MILLISECONDS)
-        /*int sec = Mathf.FloorToInt(timeElapsed);
-        if (sec != seconds)
-        {
-            seconds = sec;
-            //Debug.Log(seconds);
-        }*/
-    }
-
-    public async void StartTimer(int afterMilliseconds = 0)
-    {
-        if (afterMilliseconds > 0)
-        {
-            float seconds = afterMilliseconds / 1000.0f;
-            Debug.Log("Starting in " + seconds + " seconds...");
-            await Task.Delay(afterMilliseconds);
-        }
-        timerRunning = true;
-        Debug.Log("Started");
-    }
-
-    public void PauseTimer()
-    {
-        timerRunning = false;
-    }
-
-    public void StopTimer()
-    {
-        PauseTimer();
-        timeElapsed = 0.0f;
     }
 }

@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && GameManager.instance.timerRunning && !GameManager.instance.twoCardsPicked)
+        if (Input.GetMouseButtonDown(0) && ScoreManager.instance.timerRunning && !GameManager.instance.twoCardsPicked)
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
