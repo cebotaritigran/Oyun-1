@@ -29,7 +29,7 @@ public class CameraBehaviour : MonoBehaviour
         zCoordinate = CalculateCameraZCoordinate();
 
         // CENTER THE CAMERA IN X AXIS
-        transform.position = new Vector3(xCoordinate, 4.5f, -4.5f);
+        transform.position = new Vector3(xCoordinate, 5f, -7.5f);
         InitializeFakeCamera();
         // `CalculateCameraYCoordinate` USES `fakeCamera` TO CALCULATE THE Y COORDINATE
         yCoordinate = CalculateCameraYCoordinate();

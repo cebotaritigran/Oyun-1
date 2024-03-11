@@ -8,7 +8,7 @@ public class CardManager : MonoBehaviour
 
     // INITIALIZED FROM THE EDITOR
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public int width = 3;
+    public int width = 9;
 
     // INITIALIZED FROM THE EDITOR
     // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
@@ -57,7 +57,7 @@ public class CardManager : MonoBehaviour
                 float cardWidth = 1.0f;
                 float cardHeight = 1.45f;
 
-                Vector3 position = new Vector3(x * (offset + cardWidth), 0, z * (offset + cardHeight));
+                Vector3 position = new Vector3(x * (offset + cardWidth), 0.0f, z * (offset + cardHeight));
                 cardPositions.Add(position);
             }
         }

@@ -2,14 +2,8 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if (Input.GetMouseButtonDown(0) && ScoreManager.instance.timerRunning && !GameManager.instance.twoCardsPicked)
         {
@@ -17,7 +11,6 @@ public class PlayerInput : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                //Debug.Log(hit.transform.gameObject);
                 Card hitCard = hit.transform.GetComponent<Card>();
                 if (!hitCard.facedUp)
                 {
@@ -27,5 +20,5 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

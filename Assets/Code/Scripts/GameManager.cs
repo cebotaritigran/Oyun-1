@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         Coroutine heightAnimationCoroutine = null;
         for (int i = 0; i < pickedCards.Count; i++)
         {
-            heightAnimationCoroutine = StartCoroutine(pickedCards[i].transform.AnimateToPositionYAxis(2.0f, 1.5f, EasingFunctions.EaseInOutSine));
+            heightAnimationCoroutine = StartCoroutine(pickedCards[i].transform.AnimateToPositionYAxis(Camera.main.transform.position.y / 2.0f, 1.5f, EasingFunctions.EaseInOutSine));
         }
         //yield return heightAnimationCoroutine;
         yield return new WaitForSeconds(0.25f);

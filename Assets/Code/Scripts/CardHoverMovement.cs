@@ -66,10 +66,8 @@ public class CardHoverMovement : MonoBehaviour
     //                      \     /
     //                       \   /
     //                        \ /
-    private bool isHovering = false;
     private bool ignorePointer = false;
-    private Vector3 hoverScale = new Vector3(1.1f, 1.0f, 1.1f);
-    private Vector3 idleScale = new Vector3(1.0f, 1.0f, 1.0f);
+    private const float hoverYCoordinate = 0.15f;
 
     public void DisableHoverEffect()
     {
@@ -79,8 +77,7 @@ public class CardHoverMovement : MonoBehaviour
             return;
         }
         ignorePointer = true;
-        isHovering = false;
-        StartCoroutine(transform.AnimateScale(transform.localScale, idleScale, 0.15f, EasingFunctions.EaseOutSine));
+        StartCoroutine(transform.AnimateToPositionYAxis(0.0f, 0.15f, EasingFunctions.EaseOutSine));
     }
 
     public void EnableHoverEffect()
@@ -93,7 +90,7 @@ public class CardHoverMovement : MonoBehaviour
         ignorePointer = false;
     }
 
-    void OnMouseOver()
+    void OnMouseEnter()
     {
         if (ignorePointer || !ScoreManager.instance.timerRunning)
         {
@@ -101,10 +98,14 @@ public class CardHoverMovement : MonoBehaviour
         }
 
         // CARD HIGHLIGHT (POP) BY CHANGING ITS SCALE WITH VECTOR3
-        if (!isHovering)
+        StartCoroutine(transform.AnimateToPositionYAxis(hoverYCoordinate, 0.15f, EasingFunctions.EaseOutSine));
+    }
+
+    void OnMouseOver()
+    {
+        if (ignorePointer || !ScoreManager.instance.timerRunning)
         {
-            isHovering = true;
-            StartCoroutine(transform.AnimateScale(transform.localScale, hoverScale, 0.15f, EasingFunctions.EaseOutSine));
+            return;
         }
 
         // ROTATION START
@@ -114,12 +115,7 @@ public class CardHoverMovement : MonoBehaviour
     void OnMouseExit()
     {
         // CARD HIGHLIGH (POP) TO NORMAL BY CHANGING ITS SCALE WITH VECTOR3
-        // using lerp for smooth animation -- to tweak later
-        if (isHovering)
-        {
-            isHovering = false;
-            StartCoroutine(transform.AnimateScale(transform.localScale, idleScale, 0.15f, EasingFunctions.EaseOutSine));
-        }
+        StartCoroutine(transform.AnimateToPositionYAxis(0.0f, 0.15f, EasingFunctions.EaseOutSine));
 
         // Restart the cards rotation to start so it looks very natural when mouse exits :) maybe not idk
         //                          .                                               
@@ -137,6 +133,20 @@ public class CardHoverMovement : MonoBehaviour
         //                c--` 
         //transform.rotation = Quaternion.Euler(0, 0, 0);
         StartCoroutine(transform.AnimateRotation(transform.rotation, Quaternion.Euler(0, 0, 0), 0.15f, EasingFunctions.EaseOutSine));
+    }
+
+    void OnMouseDown()
+    {
+        if (ScoreManager.instance.timerRunning && !GameManager.instance.twoCardsPicked)
+        {
+            Card hitCard = gameObject.GetComponent<Card>();
+            if (!hitCard.facedUp)
+            {
+                // TO NOT REGISTER DOUBLE CLICK AS A MATCH
+                hitCard.FlipUp(true);
+                GameManager.instance.AddCardToPickedList(hitCard);
+            }
+        }
     }
 
     // ROTATE GAME OBJECT BASED ON WHERE MOUSE POINTS

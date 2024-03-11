@@ -27,7 +27,7 @@ public class Card : MonoBehaviour
         // X COORDINATE STARTS FROM FINAL POSITION (NO ANIMATION)
         // Y COORDINATE STARTS FROM 5.0f
         // Z COORDINATE STARTS FROM THE ORIGINAL POSITION (PROBABLY 0.0f)
-        Vector3 startPosition = new Vector3(targetPosition.x, 5.0f, transform.position.z);
+        Vector3 startPosition = new Vector3(targetPosition.x, 10.0f, transform.position.z);
         transform.position = startPosition;
         // RETURNS ONCE THE ANIMATION FINISHES
         yield return StartCoroutine(transform.AnimateToPosition(targetPosition, durationSeconds, EasingFunctions.EaseOutExpo));
@@ -35,7 +35,7 @@ public class Card : MonoBehaviour
 
     public IEnumerator AnimateCardRotation()
     {
-        Vector3 startRotation = new Vector3(180.0f, transform.eulerAngles.y, transform.eulerAngles.z);
+        Vector3 startRotation = new Vector3(90.0f, transform.eulerAngles.y, transform.eulerAngles.z);
         transform.eulerAngles = startRotation;
         Vector3 targetRotation = new Vector3(360.0f, 0.0f, 0.0f);
         // RETURNS ONCE THE ANIMATION FINISHES
