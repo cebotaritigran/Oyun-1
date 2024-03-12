@@ -114,6 +114,11 @@ public class CardHoverMovement : MonoBehaviour
 
     void OnMouseExit()
     {
+        if (ignorePointer || !ScoreManager.instance.timerRunning)
+        {
+            return;
+        }
+
         // CARD HIGHLIGH (POP) TO NORMAL BY CHANGING ITS SCALE WITH VECTOR3
         StartCoroutine(transform.AnimateToPositionYAxis(0.0f, 0.15f, EasingFunctions.EaseOutSine));
 

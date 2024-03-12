@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckForWin()
     {
-        if (CardManager.instance.pairAmount == pairCounter)
+        if (GlobalProviders.instance.currentLevel.pairAmount == pairCounter)
         {
             // WIN
             ScoreManager.instance.FinishGame();

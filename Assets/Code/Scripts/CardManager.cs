@@ -4,63 +4,28 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    public static CardManager instance;
-
-    // INITIALIZED FROM THE EDITOR
-    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public int width = 9;
-
-    // INITIALIZED FROM THE EDITOR
-    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public int height = 2;
-
-    // `GameManager` AND `CameraBehaviour` SCRIPTS DEPEND ON THIS VARIABLE
-    public int pairAmount;
-
     public Sprite[] spriteList;
-
-    public float offset = 1.6f;
-
     public GameObject cardPrefab;
 
+    private int pairAmount;
     private List<GameObject> cardDeck = new List<GameObject>();
-
-    // `CameraBehaviour` SCRIPT DEPENDS ON THIS VARIABLE
-    public List<Vector3> cardPositions = new List<Vector3>();
+    private List<Vector3> cardPositions;
 
     // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
-        instance = this;
 
-        int numberOfCards = width * height;
-        pairAmount = numberOfCards / 2;
-        offset = 5.0f / numberOfCards;
-        Debug.Log("Offset: " + offset);
-        CalculateCardPositions();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        // VARIABLES THAT DEPEND ON OTHER SCRIPTS SHOULD BE INITIALIZED IN `Start` METHOD
+        pairAmount = GlobalProviders.instance.currentLevel.pairAmount;
+        cardPositions = GlobalProviders.instance.currentLevel.cardPositions;
         CreatePlayField();
         ShuffleCards();
         StartCoroutine(PutCardsInPlayfield());
-    }
-
-    private void CalculateCardPositions()
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                float cardWidth = 1.0f;
-                float cardHeight = 1.45f;
-
-                Vector3 position = new Vector3(x * (offset + cardWidth), 0.0f, z * (offset + cardHeight));
-                cardPositions.Add(position);
-            }
-        }
     }
 
     private void CreatePlayField()

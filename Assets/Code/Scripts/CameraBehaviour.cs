@@ -8,22 +8,22 @@ public class CameraBehaviour : MonoBehaviour
     private int cardDeckWidth;
     private int cardDeckHeight;
     private float offset;
+    private List<Vector3> cardPositions;
     private float xCoordinate;
     private float zCoordinate;
     private float yCoordinate;
     private Vector3 finalCameraRotation = new Vector3(90.0f, 0.0f, 0.0f);
     private Camera fakeCamera;
-    private List<Vector3> cardPositions = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
     {
         // VARIABLES THAT DEPEND ON OTHER SCRIPTS SHOULD BE INITIALIZED IN `Start` METHOD
-        // TO BE CERTAIN THAT THEY ARE ALREADY INITIALIZED IN THAT SCRIPT'S `Awake` METHOD
-        cardDeckWidth = CardManager.instance.width;
-        cardDeckHeight = CardManager.instance.height;
-        offset = CardManager.instance.offset;
-        cardPositions = CardManager.instance.cardPositions;
+        cardDeckWidth = GlobalProviders.instance.currentLevel.cardDeckWidth;
+        cardDeckHeight = GlobalProviders.instance.currentLevel.cardDeckHeight;
+        offset = GlobalProviders.instance.currentLevel.offset;
+        cardPositions = GlobalProviders.instance.currentLevel.cardPositions;
+        Debug.Log("Offset: " + offset);
 
         xCoordinate = CalculateCameraXCoordinate();
         zCoordinate = CalculateCameraZCoordinate();

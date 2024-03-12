@@ -22,6 +22,7 @@ public class ScoreManager : MonoBehaviour
     // SHOW TIME WITHOUT MILLISECONDS IN THE GUI
     private int seconds = 0;
 
+    // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
         instance = this;

@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 778701821}
   - component: {fileID: 778701822}
   - component: {fileID: 778701823}
+  - component: {fileID: 778701824}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -672,9 +673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0c9ddd20e07ef44ad27353fb0c66d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 2
-  pairAmount: 0
   spriteList:
   - {fileID: 21300000, guid: f53f03287de3f314fa2a907d0321cd7c, type: 3}
   - {fileID: 21300000, guid: 10fcd779bccb42e49b9f6a459e9be426, type: 3}
@@ -686,9 +684,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6243d457f4fc18a41be4b9822ec9b25b, type: 3}
   - {fileID: 21300000, guid: 643c8b205babfec41b9f42cd4a9a651a, type: 3}
   - {fileID: 21300000, guid: 241670be012a4c047a41f853828e45c7, type: 3}
-  offset: 1.6
   cardPrefab: {fileID: 4888649455047989435, guid: 0f65a3260c367164a8f2aabbd0805297, type: 3}
-  cardPositions: []
 --- !u!114 &778701822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,6 +717,18 @@ MonoBehaviour:
   timerRunning: 0
   timeElapsed: 0
   attemptCounter: 0
+--- !u!114 &778701824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778701818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6812fc682ff68146b9dd1dddbb6a44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1095961706
 GameObject:
   m_ObjectHideFlags: 0
