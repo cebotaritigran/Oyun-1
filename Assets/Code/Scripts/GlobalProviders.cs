@@ -26,9 +26,12 @@ public class GlobalProviders : MonoBehaviour
     // Awake is used to initialize any variables or game state before the game starts
     void Awake()
     {
+        // WHENEVER THIS SCENE GETS LOADED AGAIN (WHEN A LEVEL ENDS), THIS OBJECT GETS DUPLICATED
+        // AND IN THAT CASE, I DESTROY THE OLD OBJECT
+        // (THIS IS UGLY AND NEEDS TO BE DONE IN A BETTER WAY)
         if (instance != null && instance != this)
         {
-            Debug.Log("instance != null && instance != this");
+            Debug.Log("GlobalProviders object duplicated");
             Destroy(instance.gameObject);
         }
         instance = this;
