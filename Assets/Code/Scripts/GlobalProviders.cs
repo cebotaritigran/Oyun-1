@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GlobalProviders : MonoBehaviour
 {
@@ -24,35 +22,16 @@ public class GlobalProviders : MonoBehaviour
     public Level currentLevel;
 
     // Awake is used to initialize any variables or game state before the game starts
-    void Awake()
+    private void Awake()
     {
         // WHENEVER THIS SCENE GETS LOADED AGAIN (WHEN A LEVEL ENDS), THIS OBJECT GETS DUPLICATED
-        // AND IN THAT CASE, I DESTROY THE OLD OBJECT
-        // (THIS IS UGLY AND NEEDS TO BE DONE IN A BETTER WAY)
+        // AND IN THAT CASE, I DESTROY THE NEW (DUPLICATE) OBJECT
         if (instance != null && instance != this)
         {
-            Debug.Log("GlobalProviders object duplicated");
-            Destroy(instance.gameObject);
+            Destroy(gameObject);
+            return;
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            Button btn = GameObject.Find("Level " + (i + 1)).GetComponent<Button>();
-            int veryHelpfulVariable = i;
-            btn.onClick.AddListener(() => LoadLevel(veryHelpfulVariable));
-        }
-    }
-
-    private void LoadLevel(int level)
-    {
-        Debug.Log("Loading level " + (level + 1));
-        currentLevel = levels[level];
-        SceneManager.LoadScene("Game-01");
     }
 }
