@@ -77,5 +77,6 @@ public class CardManager : MonoBehaviour
 
         // SHOULD CALL THIS IN `AnimateCameraIntoPosition` OF THE `CameraBehaviour` SCRIPT INSTEAD OF HERE???
         ScoreManager.instance.StartTimer();
+        Debug.Log("Started");
     }
 }

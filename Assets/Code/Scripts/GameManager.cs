@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
         yield return heightAnimationCoroutine;
 
-        EnableHoverEffect();
+        //EnableHoverEffect();
 
         yield return null;
     }

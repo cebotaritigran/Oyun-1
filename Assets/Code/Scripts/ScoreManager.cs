@@ -71,7 +71,6 @@ public class ScoreManager : MonoBehaviour
     public void StartTimer()
     {
         timerRunning = true;
-        Debug.Log("Started");
     }
 
     public void PauseTimer()

@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 86016562}
   - component: {fileID: 86016561}
   - component: {fileID: 86016565}
+  - component: {fileID: 86016566}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -312,7 +313,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -355,6 +356,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a10e3985c9ef8b48ac1999b1dc6dfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCanvas: {fileID: 86016560}
+--- !u!225 &86016566
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86016560}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &185068987
 GameObject:
   m_ObjectHideFlags: 0
